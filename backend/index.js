@@ -21,7 +21,11 @@ const uri = process.env.MONGO_URL;
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  }),
+);
 app.use(bodyParser.json());
 app.use("/api/auth", authRoutes);
 
@@ -207,7 +211,7 @@ app.post("/newOrder", auth, async (req, res) => {
   try {
     const { name, qty, price, mode } = req.body;
 
-    // 1️⃣ Save order (BUY or SELL)
+    // Save order (BUY or SELL)
     const newOrder = new OrdersModel({
       name,
       qty,
@@ -217,7 +221,7 @@ app.post("/newOrder", auth, async (req, res) => {
 
     await newOrder.save();
 
-    // 2️⃣ Update Holdings
+    // 2️Update Holdings
     let holding = await HoldingsModel.findOne({ name });
 
     if (mode === "BUY") {
@@ -237,11 +241,11 @@ app.post("/newOrder", auth, async (req, res) => {
 
     if (mode === "SELL") {
       if (!holding) {
-        return res.status(400).send("No holdings found ❌");
+        return res.status(400).send("No holdings found ");
       }
 
       if (holding.qty < qty) {
-        return res.status(400).send("Insufficient stock ❌");
+        return res.status(400).send("Insufficient stock ");
       }
 
       holding.qty -= Number(qty);
@@ -253,10 +257,10 @@ app.post("/newOrder", auth, async (req, res) => {
       }
     }
 
-    res.send("Order processed successfully ✅");
+    res.send("Order processed successfully ");
   } catch (err) {
     console.log(err);
-    res.status(500).send("Error processing order ❌");
+    res.status(500).send("Error processing order ");
   }
 });
 
@@ -270,8 +274,15 @@ app.get("/orders", auth, async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log("App Started");
-  mongoose.connect(uri);
-  console.log("DB connected");
-});
+mongoose
+  .connect(uri)
+  .then(() => {
+    console.log("DB connected");
+
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.log("DB connection error:", err);
+  });
