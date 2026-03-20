@@ -14,7 +14,7 @@ function Footer() {
           <div className="col">
             <p>Company</p>
             <a
-              href=""
+              href="/"
               style={{ textDecoration: "none" }}
               className="text-muted"
             >
@@ -22,7 +22,7 @@ function Footer() {
             </a>
             <br />
             <a
-              href=""
+              href="/"
               style={{ textDecoration: "none" }}
               className="text-muted"
             >
@@ -30,7 +30,7 @@ function Footer() {
             </a>
             <br />
             <a
-              href=""
+              href="/"
               style={{ textDecoration: "none" }}
               className="text-muted"
             >
@@ -38,7 +38,7 @@ function Footer() {
             </a>
             <br />
             <a
-              href=""
+              href="/"
               style={{ textDecoration: "none" }}
               className="text-muted"
             >
@@ -46,7 +46,7 @@ function Footer() {
             </a>
             <br />
             <a
-              href=""
+              href="/"
               style={{ textDecoration: "none" }}
               className="text-muted"
             >
@@ -54,7 +54,7 @@ function Footer() {
             </a>
             <br />
             <a
-              href=""
+              href="/"
               style={{ textDecoration: "none" }}
               className="text-muted"
             >
@@ -62,7 +62,7 @@ function Footer() {
             </a>
             <br />
             <a
-              href=""
+              href="/"
               style={{ textDecoration: "none" }}
               className="text-muted"
             >
@@ -70,7 +70,7 @@ function Footer() {
             </a>
             <br />
             <a
-              href=""
+              href="/"
               style={{ textDecoration: "none" }}
               className="text-muted"
             >
@@ -81,7 +81,7 @@ function Footer() {
           <div className="col">
             <p>Support</p>
             <a
-              href=""
+              href="/"
               style={{ textDecoration: "none" }}
               className="text-muted"
             >
@@ -89,7 +89,7 @@ function Footer() {
             </a>
             <br />
             <a
-              href=""
+              href="/"
               style={{ textDecoration: "none" }}
               className="text-muted"
             >
@@ -97,7 +97,7 @@ function Footer() {
             </a>
             <br />
             <a
-              href=""
+              href="/"
               style={{ textDecoration: "none" }}
               className="text-muted"
             >
@@ -105,7 +105,7 @@ function Footer() {
             </a>
             <br />
             <a
-              href=""
+              href="/"
               style={{ textDecoration: "none" }}
               className="text-muted"
             >
@@ -113,7 +113,7 @@ function Footer() {
             </a>
             <br />
             <a
-              href=""
+              href="/"
               style={{ textDecoration: "none" }}
               className="text-muted"
             >
@@ -124,7 +124,7 @@ function Footer() {
           <div className="col">
             <p>Account</p>
             <a
-              href=""
+              href="/"
               style={{ textDecoration: "none" }}
               className="text-muted"
             >
@@ -132,7 +132,7 @@ function Footer() {
             </a>
             <br />
             <a
-              href=""
+              href="/"
               style={{ textDecoration: "none" }}
               className="text-muted"
             >
@@ -140,7 +140,7 @@ function Footer() {
             </a>
             <br />
             <a
-              href=""
+              href="/"
               style={{ textDecoration: "none" }}
               className="text-muted"
             >
