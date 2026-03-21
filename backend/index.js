@@ -24,8 +24,8 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "https://zerodha-clone-jx4w-1ihi19pi6-gurukiran615s-projects.vercel.app/",
-      "https://zerodha-clone-mfgo-h5rwozf4z-gurukiran615s-projects.vercel.app/",
+      "https://zerodha-clone-frontend-one.vercel.app",
+      "https://zerodha-clone-dashboard-fmx09ofy2-gurukiran615s-projects.vercel.app",
     ],
     credentials: true,
   }),
