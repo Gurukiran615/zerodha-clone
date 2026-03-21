@@ -30,7 +30,9 @@ app.use(
     credentials: true,
   }),
 );
-app.use(bodyParser.json());
+
+app.use(express.json());
+app.use(express.json());
 app.use("/api/auth", authRoutes);
 
 // app.get("/addHoldings", async (req, res) => {
