@@ -11,7 +11,7 @@ function Signup() {
   const handleSignup = async () => {
     try {
       await axios.post(
-        "https://zerodha-backend-j6zw.onrender.com/api/auth/signup",
+        "https://zerodha-backend-j6zw.onrender.com/register",
         data,
       );
       alert("Signup successful");
