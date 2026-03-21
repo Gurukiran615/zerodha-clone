@@ -10,7 +10,7 @@ function Login() {
   const handleLogin = async () => {
     try {
       const res = await axios.post(
-        "https://zerodha-backend-j6zw.onrender.com/login",
+        "https://zerodha-backend-j6zw.onrender.com/api/auth/login",
         data,
       );
 
