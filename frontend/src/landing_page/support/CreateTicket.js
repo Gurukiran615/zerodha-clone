@@ -94,7 +94,7 @@ function CreateTicket() {
             Kite API
           </a>
           <br />
-          <a href="" style={{ textDecoration: "none", lineHeight: "2.5" }}>
+          <a href="/" style={{ textDecoration: "none", lineHeight: "2.5" }}>
             Pi and other platforms
           </a>
           <br />
