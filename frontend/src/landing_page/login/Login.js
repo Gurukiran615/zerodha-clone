@@ -20,7 +20,7 @@ function Login() {
       console.log("TOKEN SAVED:", localStorage.getItem("token"));
 
       // redirect to dashboard
-      window.location.href = `https://zerodha-clone-mfgo-h5rwozf4z-gurukiran615s-projects.vercel.app?token=${res.data.token}`;
+      window.location.href = `https://zerodha-clone-dashboard-fmx09ofy2-gurukiran615s-projects.vercel.app?token=${res.data.token}`;
     } catch (err) {
       console.log(err);
       alert("Login failed");
