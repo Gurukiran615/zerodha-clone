@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 
 import GeneralContext from "./GeneralContext";
@@ -66,12 +66,21 @@ const BuyActionWindow = ({ uid }) => {
       <div className="buttons">
         <span>Margin required ₹140.65</span>
         <div>
-          <Link className="btn btn-blue" onClick={handleBuyClick}>
+          <button
+            type="button"
+            className="btn btn-blue"
+            onClick={handleBuyClick}
+          >
             Buy
-          </Link>
-          <Link to="" className="btn btn-grey" onClick={handleCancelClick}>
+          </button>
+
+          <button
+            type="button"
+            className="btn btn-grey"
+            onClick={handleCancelClick}
+          >
             Cancel
-          </Link>
+          </button>
         </div>
       </div>
     </div>
