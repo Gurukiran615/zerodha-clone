@@ -62,15 +62,22 @@ const SellActionWindow = ({ uid }) => {
 
       <div className="buttons">
         <span>Margin required ₹0</span>
-
         <div>
-          <Link className="btn btn-red" onClick={handleSellClick}>
+          <button
+            type="button"
+            className="btn btn-red"
+            onClick={handleSellClick}
+          >
             Sell
-          </Link>
+          </button>
 
-          <Link to="" className="btn btn-grey" onClick={handleCancelClick}>
+          <button
+            type="button"
+            className="btn btn-grey"
+            onClick={handleCancelClick}
+          >
             Cancel
-          </Link>
+          </button>
         </div>
       </div>
     </div>
