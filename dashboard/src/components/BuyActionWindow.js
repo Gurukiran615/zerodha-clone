@@ -10,23 +10,29 @@ const BuyActionWindow = ({ uid }) => {
   const [stockQuantity, setStockQuantity] = useState(1);
   const [stockPrice, setStockPrice] = useState(0.0);
 
+  const generalContext = useContext(GeneralContext);
+
   const handleBuyClick = async () => {
     try {
       await API.post("/newOrder", {
         name: uid,
-        qty: stockQuantity,
-        price: stockPrice,
+        qty: Number(stockQuantity),
+        price: Number(stockPrice),
         mode: "BUY",
       });
 
-      GeneralContext.closeBuyWindow();
+      alert("Stock Bought Successfully");
+      generalContext.closeBuyWindow();
     } catch (err) {
-      console.log("ORDER ERROR:", err.response?.data);
+      console.error("ORDER ERROR:", err);
+      console.error("Status:", err.response?.status);
+      console.error("Data:", err.response?.data);
+      console.error("Message:", err.message);
     }
   };
 
   const handleCancelClick = () => {
-    GeneralContext.closeBuyWindow();
+    generalContext.closeBuyWindow();
   };
 
   return (
