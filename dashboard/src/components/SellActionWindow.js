@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import API from "../api/axios";
 
 import GeneralContext from "./GeneralContext";
 
@@ -14,20 +14,12 @@ const SellActionWindow = ({ uid }) => {
 
   const handleSellClick = async () => {
     try {
-      await axios.post(
-        "http://localhost:3002/newOrder",
-        {
-          name: uid,
-          qty: stockQuantity,
-          price: stockPrice,
-          mode: "SELL", // only change
-        },
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        },
-      );
+      await API.post("/newOrder", {
+        name: uid,
+        qty: stockQuantity,
+        price: stockPrice,
+        mode: "SELL",
+      });
 
       alert("Stock Sold Successfully ");
 

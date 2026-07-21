@@ -24,6 +24,7 @@ const app = express();
 app.use(
   cors({
     origin: [
+      "http://localhost:3000",
       "https://zerodha-clone-frontend-one.vercel.app",
       "https://zerodha-clone-dashboard-fmx09ofy2-gurukiran615s-projects.vercel.app",
     ],
@@ -32,7 +33,7 @@ app.use(
 );
 
 app.use(express.json());
-app.use(express.json());
+
 app.use("/api/auth", authRoutes);
 
 // app.get("/addHoldings", async (req, res) => {
