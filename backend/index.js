@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const authRoutes = require("./routes/auth");
+const stockRoutes = require("./routes/stocks");
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -35,6 +36,7 @@ app.use(
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/stocks", stockRoutes);
 
 // app.get("/addHoldings", async (req, res) => {
 //   let tempHoldings = [
@@ -209,7 +211,7 @@ app.get("/allHoldings", auth, async (req, res) => {
   res.json(allHoldings);
 });
 
-app.get("/allPositions", async (req, res) => {
+app.get("/allPositions", auth, async (req, res) => {
   let allPositions = await PositionsModel.find({});
   res.json(allPositions);
 });
@@ -233,8 +235,17 @@ app.post("/newOrder", auth, async (req, res) => {
 
     if (mode === "BUY") {
       if (holding) {
-        holding.qty += Number(qty);
-        holding.price = price;
+        const oldQty = holding.qty;
+        const oldAvg = holding.avg;
+        const newQty = Number(qty);
+        const newPrice = Number(price);
+
+        const totalQty = oldQty + newQty;
+        const newAvg = (oldQty * oldAvg + newQty * newPrice) / totalQty;
+
+        holding.qty = totalQty;
+        holding.avg = newAvg;
+        holding.price = newPrice; // current market price, still fine to overwrite
         await holding.save();
       } else {
         await HoldingsModel.create({

@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 module.exports = (req, res, next) => {
   const header = req.headers.authorization;
 
-  console.log("HEADER:", header); //  debug
+  //console.log("HEADER:", header); //  debug
 
   if (!header) {
     return res.status(401).json({ message: "No token" });
@@ -13,10 +13,10 @@ module.exports = (req, res, next) => {
   const token = header.split(" ")[1];
 
   try {
-    const decoded = jwt.verify(token, "SECRET_KEY");
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
 
-    console.log("USER:", decoded); //  debug
+    //console.log("USER:", decoded); //  debug
 
     next();
   } catch (err) {
