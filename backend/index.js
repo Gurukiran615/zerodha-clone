@@ -27,7 +27,7 @@ app.use(
     origin: [
       "http://localhost:3000",
       "https://zerodha-clone-frontend-one.vercel.app",
-      "https://zerodha-clone-dashboard-fmx09ofy2-gurukiran615s-projects.vercel.app",
+      "https://zerodha-clone-dashboard-mu.vercel.app",
     ],
     credentials: true,
   }),
