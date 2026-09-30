@@ -207,12 +207,12 @@ app.use("/api/stocks", stockRoutes);
 // });
 
 app.get("/allHoldings", auth, async (req, res) => {
-  let allHoldings = await HoldingsModel.find({});
+  let allHoldings = await HoldingsModel.find({ userId: req.user.id });
   res.json(allHoldings);
 });
 
 app.get("/allPositions", auth, async (req, res) => {
-  let allPositions = await PositionsModel.find({});
+  let allPositions = await PositionsModel.find({ userId: req.user.id });
   res.json(allPositions);
 });
 
@@ -220,71 +220,83 @@ app.post("/newOrder", auth, async (req, res) => {
   try {
     const { name, qty, price, mode } = req.body;
 
-    // Save order (BUY or SELL)
+    // Validation
+    const numQty = Number(qty);
+    const numPrice = Number(price);
+
+    if (!name || !mode) {
+      return res.status(400).send("Missing required fields");
+    }
+    if (!numQty || numQty <= 0) {
+      return res.status(400).send("Quantity must be greater than 0");
+    }
+    if (!numPrice || numPrice <= 0) {
+      return res.status(400).send("Price must be greater than 0");
+    }
+
     const newOrder = new OrdersModel({
+      userId: req.user.id,
       name,
-      qty,
-      price,
+      qty: numQty,
+      price: numPrice,
       mode,
     });
 
     await newOrder.save();
 
-    // 2️Update Holdings
-    let holding = await HoldingsModel.findOne({ name });
+    let holding = await HoldingsModel.findOne({ name, userId: req.user.id });
 
     if (mode === "BUY") {
       if (holding) {
         const oldQty = holding.qty;
         const oldAvg = holding.avg;
-        const newQty = Number(qty);
-        const newPrice = Number(price);
-
-        const totalQty = oldQty + newQty;
-        const newAvg = (oldQty * oldAvg + newQty * newPrice) / totalQty;
+        const totalQty = oldQty + numQty;
+        const newAvg = (oldQty * oldAvg + numQty * numPrice) / totalQty;
 
         holding.qty = totalQty;
         holding.avg = newAvg;
-        holding.price = newPrice; // current market price, still fine to overwrite
+        holding.price = numPrice;
         await holding.save();
       } else {
         await HoldingsModel.create({
+          userId: req.user.id,
           name,
-          qty,
-          avg: price,
-          price,
+          qty: numQty,
+          avg: numPrice,
+          price: numPrice,
         });
       }
     }
 
     if (mode === "SELL") {
       if (!holding) {
-        return res.status(400).send("No holdings found ");
+        return res.status(400).send("No holdings found");
+      }
+      if (holding.qty < numQty) {
+        return res.status(400).send("Insufficient stock");
       }
 
-      if (holding.qty < qty) {
-        return res.status(400).send("Insufficient stock ");
-      }
-
-      holding.qty -= Number(qty);
+      holding.qty -= numQty;
 
       if (holding.qty === 0) {
-        await HoldingsModel.deleteOne({ name });
+        await HoldingsModel.deleteOne({ name, userId: req.user.id });
       } else {
         await holding.save();
       }
     }
 
-    res.send("Order processed successfully ");
+    res.send("Order processed successfully");
   } catch (err) {
     console.log(err);
-    res.status(500).send("Error processing order ");
+    res.status(500).send("Error processing order");
   }
 });
 
 app.get("/orders", auth, async (req, res) => {
   try {
-    const orders = await OrdersModel.find().sort({ _id: -1 }); // latest first
+    const orders = await OrdersModel.find({ userId: req.user.id }).sort({
+      _id: -1,
+    });
     res.json(orders);
   } catch (err) {
     console.log(err);
