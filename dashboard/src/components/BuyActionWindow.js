@@ -24,9 +24,7 @@ const BuyActionWindow = ({ uid }) => {
       generalContext.closeBuyWindow();
     } catch (err) {
       console.error("ORDER ERROR:", err);
-      console.error("Status:", err.response?.status);
-      console.error("Data:", err.response?.data);
-      console.error("Message:", err.message);
+      alert(err.response?.data || "Buy Failed");
     }
   };
 
