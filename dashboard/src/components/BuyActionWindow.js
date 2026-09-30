@@ -5,18 +5,32 @@ import GeneralContext from "./GeneralContext";
 import "./BuyActionWindow.css";
 import API from "../api/axios";
 
-const BuyActionWindow = ({ uid }) => {
+const BuyActionWindow = ({ uid, currentPrice }) => {
   const [stockQuantity, setStockQuantity] = useState(1);
-  const [stockPrice, setStockPrice] = useState(0.0);
+  const [stockPrice, setStockPrice] = useState(currentPrice || 0.0);
 
   const generalContext = useContext(GeneralContext);
 
   const handleBuyClick = async () => {
+    const qty = Number(stockQuantity);
+    const price = Number(stockPrice);
+
+    // Allow a small tolerance around the live price (±2%)
+    const minAllowed = currentPrice * 0.98;
+    const maxAllowed = currentPrice * 1.02;
+
+    if (price < minAllowed || price > maxAllowed) {
+      alert(
+        `Price must be close to the current market price (₹${currentPrice.toFixed(2)}). Allowed range: ₹${minAllowed.toFixed(2)} - ₹${maxAllowed.toFixed(2)}`,
+      );
+      return;
+    }
+
     try {
       await API.post("/newOrder", {
         name: uid,
-        qty: Number(stockQuantity),
-        price: Number(stockPrice),
+        qty,
+        price,
         mode: "BUY",
       });
 
@@ -70,7 +84,6 @@ const BuyActionWindow = ({ uid }) => {
           >
             Buy
           </button>
-
           <button
             type="button"
             className="btn btn-grey"

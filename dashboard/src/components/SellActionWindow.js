@@ -1,32 +1,43 @@
 import React, { useState, useContext } from "react";
-
 import API from "../api/axios";
 
 import GeneralContext from "./GeneralContext";
 
-import "./BuyActionWindow.css"; // reuse same styling
+import "./BuyActionWindow.css";
 
-const SellActionWindow = ({ uid }) => {
+const SellActionWindow = ({ uid, currentPrice }) => {
   const [stockQuantity, setStockQuantity] = useState(1);
-  const [stockPrice, setStockPrice] = useState(0.0);
+  const [stockPrice, setStockPrice] = useState(currentPrice || 0.0);
 
   const generalContext = useContext(GeneralContext);
 
   const handleSellClick = async () => {
+    const qty = Number(stockQuantity);
+    const price = Number(stockPrice);
+
+    const minAllowed = currentPrice * 0.98;
+    const maxAllowed = currentPrice * 1.02;
+
+    if (price < minAllowed || price > maxAllowed) {
+      alert(
+        `Price must be close to the current market price (₹${currentPrice.toFixed(2)}). Allowed range: ₹${minAllowed.toFixed(2)} - ₹${maxAllowed.toFixed(2)}`,
+      );
+      return;
+    }
+
     try {
       await API.post("/newOrder", {
         name: uid,
-        qty: stockQuantity,
-        price: stockPrice,
+        qty,
+        price,
         mode: "SELL",
       });
 
-      alert("Stock Sold Successfully ");
-
+      alert("Stock Sold Successfully");
       generalContext.closeSellWindow();
     } catch (err) {
       console.log(err);
-      alert("Sell Failed ");
+      alert(err.response?.data || "Sell Failed");
     }
   };
 
@@ -70,7 +81,6 @@ const SellActionWindow = ({ uid }) => {
           >
             Sell
           </button>
-
           <button
             type="button"
             className="btn btn-grey"

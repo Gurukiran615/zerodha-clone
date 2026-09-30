@@ -51,11 +51,10 @@ const WatchList = () => {
       } finally {
         setIsSearching(false);
       }
-    }, 400); // wait 400ms after typing stops before calling API
+    }, 400);
   };
 
   const handleAddStock = async (symbol, name) => {
-    // Avoid duplicates
     if (watchlist.some((s) => s.name === symbol)) {
       setSearchTerm("");
       setSearchResults([]);
@@ -197,6 +196,7 @@ const WatchListItem = ({ stock, onRemove }) => {
       {showWatchlistActions && (
         <WatchListActions
           uid={stock.name}
+          price={stock.price}
           onRemove={() => onRemove(stock.name)}
         />
       )}
@@ -204,11 +204,15 @@ const WatchListItem = ({ stock, onRemove }) => {
   );
 };
 
-const WatchListActions = ({ uid, onRemove }) => {
+const WatchListActions = ({ uid, price, onRemove }) => {
   const generalContext = useContext(GeneralContext);
 
   const handleBuyClick = () => {
-    generalContext.openBuyWindow(uid);
+    generalContext.openBuyWindow(uid, price);
+  };
+
+  const handleSellClick = () => {
+    generalContext.openSellWindow(uid, price);
   };
 
   return (
@@ -228,6 +232,7 @@ const WatchListActions = ({ uid, onRemove }) => {
           placement="top"
           arrow
           TransitionComponent={Grow}
+          onClick={handleSellClick}
         >
           <button className="sell">Sell</button>
         </Tooltip>
